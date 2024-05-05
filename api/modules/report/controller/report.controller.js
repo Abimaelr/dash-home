@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { isAuthenticated, validSensor } from "../../../middlewares/isAuth.middleware.js";
-import { Sensor } from "../../../models/tables.js";
+import { Sensor, SensorData } from "../../../models/tables.js";
 
 const ReportController = Router();
 
@@ -11,7 +11,7 @@ ReportController.post("/", validSensor, async(req, res) => {
 
     const {temperature, humidity} = req.body;
     console.log({deviceId, temperature, humidity})
-    Sensor.forge({
+    SensorData.forge({
   sensor_id: 1,
   temperature,
   humidity,
