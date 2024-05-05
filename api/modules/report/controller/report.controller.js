@@ -8,8 +8,9 @@ const ReportController = Router();
 ReportController.post("/", validSensor, async(req, res) => {
     const deviceId = req.headers.deviceid;
 
+
+    const {temperature, humidity} = req.body;
     console.log({deviceId, temperature, humidity})
-const {temperature, humidity} = req.body
     Sensor.forge({
   sensor_id: 1,
   temperature,
