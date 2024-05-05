@@ -5,6 +5,9 @@ const ReportController = Router();
 
 
 ReportController.post("/", validSensor, async(req, res) => {
+
+    const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    console.log('Endereço IP do dispositivo:', ipAddress);
     const {} = req.body;
 });
 
