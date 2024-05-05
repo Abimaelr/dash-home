@@ -7,8 +7,17 @@ const ReportController = Router();
 
 ReportController.post("/", validSensor, async(req, res) => {
     const deviceId = req.headers.deviceid;
-
-    console.log({deviceId})
+const {temperature, humidity} = req.body
+    Sensor.forge({
+  sensor_id: 1,
+  temperature,
+  humidity,
+  date_time: new Date();
+}).save().then(savedInfo => {
+  console.log('Dado salvo:', savedInfo.toJSON());
+}).catch(err => {
+  console.error('Erro', err);
+});
 
     const {} = req.body;
 });
