@@ -20,7 +20,7 @@ export const isAuthenticated = (req, res, next) => {
 export const validSensor = (req, res, next) => {
     const code = req.header.DeviceId;
 
-    console.log(req.body)
+    console.log(req.body, {code})
 
      if (!code) {
         return res.status(401).json({error: 'You not allowed to post'})
