@@ -18,9 +18,9 @@ export const isAuthenticated = (req, res, next) => {
  * @param {import('express').NextFunction} next 
  */
 export const validSensor = (req, res, next) => {
-    const code = req.header.DeviceId;
+    const code = req.headers.DeviceId;
 
-    console.log(req.body, {code})
+    console.log(req.body, {code}, req.headers)
 
      if (!code) {
         return res.status(401).json({error: 'You not allowed to post'})
