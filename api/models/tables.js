@@ -13,7 +13,7 @@ const connection = knex({
   },
 });
 
-const BS = bookshelf(knex)
+const BS = bookshelf(connection)
 
 export const User = BS.model('User', {
   tableName: 'user'
