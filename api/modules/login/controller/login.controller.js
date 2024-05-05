@@ -4,7 +4,6 @@ const LoginController = Router();
 
 
 LoginController.post("/", (req, res) => {
-console.log(req)
     const { username, password } = req.body;
     if (username === "usuário" && password === "senha") {
         res.status(200).json({ message: "Login bem-sucedido" });
