@@ -1,4 +1,4 @@
-import { User } from "../../../models/tables";
+import { User } from "../../../models/tables.js";
 import crypto from 'crypto';
 
 export const LoginService = {
