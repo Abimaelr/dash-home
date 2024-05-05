@@ -4,6 +4,8 @@ import * as jwt from 'jsonwebtoken';
 import LoginRouter from './modules/login/index.js';
 import knex from 'knex';
 
+const app = express()
+
 export const connection = knex({
   client: 'pg',
   connection: {
@@ -14,14 +16,6 @@ export const connection = knex({
     database: 'iot'
   },
 });
-
-
-
-
-
-
-
-const app = express()
 
 app.use(express.json())
 
@@ -34,9 +28,5 @@ app.get('/', (req, res) => {
 
 
 app.listen(3000, () => {
-
   console.log('API Listening in 3000')
 })
-    
-
-
