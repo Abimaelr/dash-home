@@ -18,7 +18,8 @@ CREATE TABLE installation (
 
 CREATE TABLE sensor (
     id SERIAL PRIMARY KEY,
-    alias VARCHAR(255) NOT NULL
+    alias VARCHAR(255) NOT NULL,
+    code VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE sensor_data (
