@@ -14,7 +14,7 @@
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="login">Login</el-button>
+          <el-button type="primary" @click="login" :loading="formData.loading">Login</el-button>
           <el-button type="default" @click="clearForm">Clear</el-button>
         </el-form-item>
       </el-form>
@@ -22,13 +22,25 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { ElForm, ElFormItem, ElInput, ElButton, ElCard } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import useUserStore from '../stores/userData'
+import router from '@/router'
+
+const userStore = useUserStore()
+
+const token = localStorage.getItem('token')
+
+if (token) {
+  router.push('/')
+}
 
 const formData = ref({
   email: '',
-  password: ''
+  password: '',
+  loading: false
 })
 
 const formRules = {
@@ -44,12 +56,23 @@ const formRules = {
 
 const loginForm = ref(null)
 
-const login = () => {
-  loginForm.value.validate((valid) => {
+const login = async () => {
+  formData.value.loading = true
+  loginForm.value.validate(async (valid) => {
     if (valid) {
-      console.log('Login:', formData.value.email, formData.value.password)
-      // Adicione aqui a lógica de autenticação, por exemplo, com uma API
+      try {
+        const data = await userStore.login(formData.value.email, formData.value.password)
+        ElMessage.success(data.message)
+        router.push('/')
+        await userStore.getMe()
+        formData.value.loading = false
+      } catch (err) {
+        formData.value.loading = false
+        if (err.response.data.message) ElMessage.error(err.response.data.message)
+        else ElMessage.error(err.message)
+      }
     } else {
+      formData.value.loading = false
       return false
     }
   })
@@ -58,6 +81,7 @@ const login = () => {
 const clearForm = () => {
   formData.value.email = ''
   formData.value.password = ''
+  formData.value.loading = false
 }
 </script>
 

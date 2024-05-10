@@ -10,8 +10,7 @@ ReportController.post("/", validSensor, async(req, res) => {
 
 
     const {temperature, humidity} = req.body;
-    console.log({deviceId, temperature, humidity})
-    SensorData.forge({
+    SensorData.query().insert({
   sensor_id: 1,
   temperature,
   humidity,
