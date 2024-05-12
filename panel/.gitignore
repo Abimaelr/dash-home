@@ -12,7 +12,7 @@ node_modules
 ./api/.env
 .env
 .DS_Store
-dist
+
 dist-ssr
 coverage
 *.local
