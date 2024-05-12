@@ -23,6 +23,7 @@ const router = createRouter({
       name: 'about',
       component: () => import('../views/AboutView.vue')
     },
+    { path: '/logout', name: 'logout', component: () => import('../views/LogoutView.vue') },
     { path: '/403', name: 'forbidden', component: () => import('../views/ForbiddenView.vue') }
   ]
 })

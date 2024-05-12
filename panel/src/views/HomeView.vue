@@ -1,12 +1,22 @@
 <template>
-  <el-container>
+  <el-container class="container">
     <el-container>
       <el-main>
         <el-scrollbar>
-          <el-table v-loading="loading" :data="tableData" @row-click="handleRowClick">
-            <el-table-column prop="id" label="ID" />
-            <el-table-column prop="address" label="Address" />
-          </el-table>
+          <el-row>
+            <el-col
+              :xs="24"
+              :sm="12"
+              :md="8"
+              :lg="6"
+              v-for="installation in installationData"
+              :key="installation.id"
+            >
+              <el-card @click.native="handleCardClick(installation)" class="card">
+                <div>{{ installation.address }}</div>
+              </el-card>
+            </el-col>
+          </el-row>
         </el-scrollbar>
       </el-main>
     </el-container>
@@ -21,18 +31,26 @@ import router from '@/router'
 const { getInstallations } = useInstallationStore()
 
 const loading = ref(false)
-const tableData = ref([])
+const installationData = ref([])
 
 onMounted(async () => {
   loading.value = true
-  tableData.value = await getInstallations()
-
+  installationData.value = await getInstallations()
   loading.value = false
 })
 
-function handleRowClick(data: any) {
-  router.push(`/installation/${data.id}`)
+function handleCardClick(installation: any) {
+  router.push(`/installation/${installation.id}`)
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+el-row {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.card {
+  cursor: pointer;
+}
+</style>

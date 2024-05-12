@@ -7,6 +7,7 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 const app = createApp(App)
 import VueChartkick from 'vue-chartkick'
+import 'chartkick/chart.js'
 
 // router.beforeEach((to, from, next) => {
 //   console.log('a')

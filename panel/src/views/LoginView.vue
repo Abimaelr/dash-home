@@ -1,5 +1,9 @@
 <template>
   <div class="login-container">
+    <div class="product-name-container">
+      <h1 class="product-name">{{ productName }}</h1>
+      <p class="slogan">The ultimate IOT platform</p>
+    </div>
     <el-card class="login-card" shadow="hover">
       <h2>Login</h2>
       <el-form ref="loginForm" :model="formData" :rules="formRules" label-position="top">
@@ -23,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { ElForm, ElFormItem, ElInput, ElButton, ElCard } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import useUserStore from '../stores/userData'
@@ -45,12 +49,12 @@ const formData = ref({
 
 const formRules = {
   email: [
-    { required: true, message: 'Por favor, digite seu email', trigger: 'blur' },
-    { type: 'email', message: 'Formato de email inválido', trigger: ['blur', 'change'] }
+    { required: true, message: 'Please enter your email', trigger: 'blur' },
+    { type: 'email', message: 'Invalid email format', trigger: ['blur', 'change'] }
   ],
   password: [
-    { required: true, message: 'Por favor, digite sua senha', trigger: 'blur' },
-    { min: 6, message: 'A senha deve ter pelo menos 6 caracteres', trigger: 'blur' }
+    { required: true, message: 'Please enter your password', trigger: 'blur' },
+    { min: 6, message: 'Password must be at least 6 characters', trigger: 'blur' }
   ]
 }
 
@@ -83,14 +87,58 @@ const clearForm = () => {
   formData.value.password = ''
   formData.value.loading = false
 }
+
+const productName = ref('')
+const productNameText = 'Angel-I'
+
+onMounted(() => {
+  let index = 0
+  const interval = setInterval(() => {
+    productName.value += productNameText[index]
+    index++
+    if (index === productNameText.length) clearInterval(interval)
+  }, 100)
+})
 </script>
 
 <style scoped>
 .login-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+}
+
+.product-name-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.slogan {
+  font-size: 1.5rem; /* Tamanho ajustado */
+}
+
+.product-name {
+  font-family: monospace;
+  font-size: 3rem;
+  animation: typing 2s steps(30, end);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.slogan {
+  font-size: 1.5rem;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+}
+
+.login-card {
+  width: 400px;
+  padding: 20px;
 }
 
 .login-card {

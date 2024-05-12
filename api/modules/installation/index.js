@@ -1,7 +1,7 @@
 import express from 'express';
 import InstallationController from './installation.controller.js';
 import mqtt from 'mqtt';
-import { Sensor, SensorData } from '../../models/tables.js';
+import { Installation, InstallationSensor, Sensor, SensorData } from '../../models/tables.js';
 
 const brokerUrl = 'mqtt://broker.hivemq.com:1883'; // Altere para o endereço do seu broker MQTT
 const client = mqtt.connect(brokerUrl);
@@ -33,6 +33,14 @@ client.on('connect', async () => {
 client.on('message', async (topic, message) => {
   try {
     const sensor = await Sensor.query().findOne({ code: topic });
+
+    const installation = await InstallationSensor.query().findOne({sensor_id: sensor.id});
+
+    if(installation) {
+      Installation.query().findById(installation.installation_id).patch({
+        last_online: new Date()
+      });
+    }
 
     if (sensor) {
       await SensorData.query().insert({
