@@ -1,62 +1,129 @@
+import { Model } from 'objection';
+import Knex from 'knex';
+import { configDotenv } from 'dotenv';
+configDotenv()
 
-import bookshelf from 'bookshelf';
-import knex from 'knex';
-
-const connection = knex({
+const connection = Knex({
   client: 'pg',
   connection: {
-    host: '64.23.174.41',
-    port: 5432,
-    user: 'myuser',
-    password: 'mypassword',
+    host:process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
     database: 'iot'
   },
 });
 
-const BS = bookshelf(connection)
+Model.knex(connection);
 
-export const User = BS.model('User', {
-  tableName: 'user'
-});
-
-export const Installation = BS.model('Installation', {
-  tableName: 'installation'
-});
-
-export const Sensor = BS.model('Sensor', {
-  tableName: 'sensor'
-});
-
-export const SensorData = BS.model('SensorData', {
-  tableName: 'sensor_data',
-  sensor: function() {
-    return this.belongsTo(Sensor, 'sensor_id');
+class User extends Model {
+  static get tableName() {
+    return 'user';
   }
-});
+}
 
-export const UserInstallation = BS.model('UserInstallation', {
-  tableName: 'user_installation',
-  user: function() {
-    return this.belongsTo(User, 'user_id');
-  },
-  installation: function() {
-    return this.belongsTo(Installation, 'installation_id');
+class Installation extends Model {
+  static get tableName() {
+    return 'installation';
   }
-});
+}
 
-export const InstallationSensor = BS.model('InstallationSensor', {
-  tableName: 'installation_sensor',
-  installation: function() {
-    return this.belongsTo(Installation, 'installation_id');
-  },
-  sensor: function() {
-    return this.belongsTo(Sensor, 'sensor_id');
+class Sensor extends Model {
+  static get tableName() {
+    return 'sensor';
   }
-});
+}
 
-export const Alert = BS.model('Alert', {
-  tableName: 'alert',
-  sensor: function() {
-    return this.belongsTo(Sensor, 'sensor_id');
+class SensorData extends Model {
+  static get tableName() {
+    return 'sensor_data';
   }
-});
+
+  static get relationMappings() {
+    return {
+      sensor: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Sensor,
+        join: {
+          from: 'sensor_data.sensor_id',
+          to: 'sensor.id'
+        }
+      }
+    };
+  }
+}
+
+class UserInstallation extends Model {
+  static get tableName() {
+    return 'user_installation';
+  }
+
+  static get relationMappings() {
+    return {
+      user: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: User,
+        join: {
+          from: 'user_installation.user_id',
+          to: 'user.id'
+        }
+      },
+      installation: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Installation,
+        join: {
+          from: 'user_installation.installation_id',
+          to: 'installation.id'
+        }
+      }
+    };
+  }
+}
+
+class InstallationSensor extends Model {
+  static get tableName() {
+    return 'installation_sensor';
+  }
+
+  static get relationMappings() {
+    return {
+      installation: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Installation,
+        join: {
+          from: 'installation_sensor.installation_id',
+          to: 'installation.id'
+        }
+      },
+      sensor: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Sensor,
+        join: {
+          from: 'installation_sensor.sensor_id',
+          to: 'sensor.id'
+        }
+      }
+    };
+  }
+}
+
+class Alert extends Model {
+  static get tableName() {
+    return 'alert';
+  }
+
+  static get relationMappings() {
+    return {
+      sensor: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Sensor,
+        join: {
+          from: 'alert.sensor_id',
+          to: 'sensor.id'
+        }
+      }
+    };
+  }
+}
+
+export { User, Installation, Sensor, SensorData, UserInstallation, InstallationSensor, Alert };
