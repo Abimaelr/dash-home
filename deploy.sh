@@ -4,6 +4,10 @@ docker exec -it meu_postgres psql -U myuser
 
 CREATE DATABASE IOT;
 
+docker build -t meu-nginx .
+docker run --name meu-servidor-nginx -d -p 80:80 meu-nginx
+
+
 CREATE TABLE user (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
