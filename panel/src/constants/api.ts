@@ -5,7 +5,7 @@ const api = axios.create({
   baseURL: import.meta.env.VITE_APP_API_URL
 })
 
-function isTokenExpired(token) {
+function isTokenExpired(token: string) {
   const decodedToken = JSON.parse(atob(token.split('.')[1]))
 
   const expirationDate = new Date(decodedToken.exp * 1000)
@@ -25,6 +25,8 @@ api.interceptors.request.use(
         return config
       }
       config.headers.Authorization = `${token}`
+    } else {
+      router.push('/login')
     }
     return config
   },
