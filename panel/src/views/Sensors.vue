@@ -64,15 +64,4 @@ function handleCardClick(installation: any) {
 .card-content {
   padding: 20px;
 }
-
-.installation-address {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.last-active {
-  font-size: 14px;
-  color: #666;
-}
 </style>

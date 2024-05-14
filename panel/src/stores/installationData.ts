@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import api from '@/constants/api'
+import type { K, T } from 'vitest/dist/reporters-P7C2ytIv.js'
 
 export const useInstallationStore = defineStore('installation', () => {
   const installations = ref([])
@@ -24,18 +25,18 @@ export const useInstallationStore = defineStore('installation', () => {
   }
 
   const loadingInstallationSensor = ref(false)
-  async function getSensorsData(id: number) {
+  async function getSensorsData(id: number, filter: Record<K, T>) {
     loadingInstallationSensor.value = true
-    const { data } = await api(`/installation/${id}/sensors/`)
+    const { data } = await api(`/installation/${id}/sensors/`, { params: { ...filter } })
     sensors.value = data
     loadingInstallationSensor.value = false
     return data
   }
 
   const loadingAlerts = ref(false)
-  async function getAlerts(installationId: number) {
+  async function getAlerts(installationId: number, filter: Record<K, T>) {
     loadingAlerts.value = true
-    const { data } = await api(`/installation/${installationId}/alerts`)
+    const { data } = await api(`/installation/${installationId}/alerts`, { params: { ...filter } })
     loadingAlerts.value = false
     alerts.value = data
   }

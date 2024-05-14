@@ -9,10 +9,7 @@ const installationStore = useInstallationStore()
 
 const today = new Date()
 
-const selectedDateRange = ref([
-  new Date(today.getFullYear(), today.getMonth() - 1, 1),
-  new Date(today.getFullYear(), today.getMonth(), 0)
-])
+const selectedDateRange = ref([new Date(new Date().setDate(0)), new Date()])
 
 const pickerOptions = {
   shortcuts: [
@@ -41,8 +38,14 @@ const pickerOptions = {
 const fetchData = async () => {
   Promise.all([
     installationStore.getInstallationData(Number(params.id)),
-    installationStore.getSensorsData(Number(params.id)),
-    installationStore.getAlerts(Number(params.id))
+    installationStore.getSensorsData(Number(params.id), {
+      startDate: selectedDateRange.value[0],
+      endDate: selectedDateRange.value[1]
+    }),
+    installationStore.getAlerts(Number(params.id), {
+      startDate: selectedDateRange.value[0],
+      endDate: selectedDateRange.value[1]
+    })
   ])
 }
 
@@ -56,7 +59,14 @@ onMounted(() => {
 
 watch(selectedDateRange, (newValue) => {
   const [startDate, endDate] = newValue
-  installationStore.getSensorsData(Number(params.id))
+  installationStore.getSensorsData(Number(params.id), {
+    startDate,
+    endDate
+  })
+  installationStore.getAlerts(Number(params.id), {
+    startDate: selectedDateRange.value[0],
+    endDate: selectedDateRange.value[1]
+  })
 })
 
 const transformData = (sensor) => {

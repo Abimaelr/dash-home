@@ -41,7 +41,7 @@ InstallationController.get('/:id', isAuthenticated, async(req, res) => {
 InstallationController.get("/:id/sensors", isAuthenticated, async (req, res) => {
     try {
         const { user } = req;
-
+        const { startDate, endDate } = req.query
       
         const userInstallations = await UserInstallation.query().where('user_id', user.id);
 
@@ -54,11 +54,15 @@ InstallationController.get("/:id/sensors", isAuthenticated, async (req, res) => 
         const sensors = await Promise.all(
             sensorsIds.map(async sensorId => {
                 const sensor = await Sensor.query().findById(sensorId);
-                const sensorData = await SensorData.query().where('sensor_id', sensorId);
+                const sensorData = await SensorData.query()
+                    .where('sensor_id', sensorId)
+                    .andWhere('date_time', '>=', startDate)
+                    .andWhere('date_time', '<=', endDate)
+           
+
                 return { ...sensor, data: sensorData };
             })
         );
-
         res.status(200).json(sensors);
     } catch (error) {
         console.error("Erro ao buscar instalações do usuário:", error);
@@ -70,6 +74,7 @@ InstallationController.get("/:id/alerts", isAuthenticated, async (req, res) => {
     try {
         const { user } = req;
 
+        const { startDate, endDate } = req.query
       
         const userInstallations = await UserInstallation.query().where('user_id', user.id);
 
@@ -82,7 +87,9 @@ InstallationController.get("/:id/alerts", isAuthenticated, async (req, res) => {
       const alerts = await Alert.query()
         .select('*') 
         .join('sensor', 'alert.sensor_id', '=', 'sensor.id')
-        .whereIn('alert.sensor_id', sensorsIds);
+        .whereIn('alert.sensor_id', sensorsIds)
+        .andWhere('date_time', '>=', startDate)
+        .andWhere('date_time', '<=', endDate)
         res.status(200).json(alerts);
     } catch (error) {
         console.error("Erro ao buscar instalações do usuário:", error);
