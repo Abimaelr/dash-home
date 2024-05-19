@@ -38,7 +38,7 @@
                 <el-menu-item index="installations" route="/">Installations</el-menu-item>
                 <el-menu-item index="sensors" route="/sensors">Sensors</el-menu-item>
               </el-sub-menu>
-              <el-menu-item index="profile" route="/">Profile</el-menu-item>
+              <el-menu-item disabled index="profile" route="/">Profile</el-menu-item>
               <el-menu-item index="about" route="/about">About </el-menu-item>
             </el-menu>
           </el-scrollbar>

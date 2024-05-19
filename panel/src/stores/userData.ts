@@ -32,8 +32,12 @@ const useUserStore = defineStore('user', {
     },
 
     async getMe() {
-      const { data } = await api.get('login/me')
-      return data
+      try {
+        const { data } = await api.get('login/me')
+        return data
+      } catch {
+        return {}
+      }
     }
   }
 })

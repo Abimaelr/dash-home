@@ -2,9 +2,9 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import api from '@/constants/api'
 
-export const useInstallationStore = defineStore('installation', () => {
+export const useSensorStore = defineStore('sensor', () => {
   const sensors = ref([])
-
+  const sensor = ref({})
   const loading = ref(false)
 
   const getSensors = async () => {
@@ -23,7 +23,7 @@ export const useInstallationStore = defineStore('installation', () => {
     try {
       loading.value = true
       const response = await api.get(`sensors/${id}`)
-      sensors.value = response.data
+      sensor.value = response.data
       loading.value = false
       return response.data
     } catch (error) {

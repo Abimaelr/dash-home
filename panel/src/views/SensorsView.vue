@@ -4,20 +4,11 @@
       <el-main>
         <el-scrollbar>
           <el-row>
-            <el-col
-              :xs="24"
-              :sm="12"
-              :md="8"
-              :lg="6"
-              v-for="installation in installationData"
-              :key="installation.id"
-            >
-              <el-card @click="handleCardClick(installation)" class="card">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="sensor in sensors" :key="sensor.id">
+              <el-card @click="handleCardClick(sensor)" class="card">
                 <div class="card-content">
-                  <div class="installation-address">{{ installation.address }}</div>
-                  <div class="last-active">
-                    Last Active: {{ installation.last_active ?? 'N/A' }}
-                  </div>
+                  <div class="">{{ sensor.alias }}</div>
+                  <div class="">{{ sensor.code }}</div>
                 </div>
               </el-card>
             </el-col>
@@ -29,19 +20,14 @@
 </template>
 
 <script setup lang="ts">
-import { useInstallationStore } from '@/stores/installationData'
+import { useSensorStore } from '../stores/sensorData'
 import { onMounted, ref } from 'vue'
 import router from '@/router'
 
-const { getInstallations } = useInstallationStore()
-
-const loading = ref(false)
-const installationData = ref([])
+const { getSensors, sensors, loading } = useSensorStore()
 
 onMounted(async () => {
-  loading.value = true
-  installationData.value = await getInstallations()
-  loading.value = false
+  await getSensors()
 })
 
 function handleCardClick(installation: any) {
@@ -54,6 +40,7 @@ function handleCardClick(installation: any) {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
+  margin: 15px;
 }
 
 .el-card:hover {
@@ -63,5 +50,6 @@ function handleCardClick(installation: any) {
 
 .card-content {
   padding: 20px;
+  margin: 10px;
 }
 </style>
