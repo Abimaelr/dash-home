@@ -1,7 +1,7 @@
 ### Abimael Rocha de Albuquerque - 22007441
 
 Instruções para execução do projeto.
-Entre nas pasta api e na pasta panel, em ambas execute o seguinte código
+Entre na pasta api e na pasta panel, em ambas execute o seguinte código
 
 npm install ou yarn install
 
