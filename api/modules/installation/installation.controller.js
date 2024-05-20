@@ -13,7 +13,7 @@ InstallationController.get("/", isAuthenticated, async (req, res) => {
     
         const userInstallations = await UserInstallation.query().where('user_id', user.id);
 
-        const installationIds = userInstallations.map(installation => installation.id);
+        const installationIds = userInstallations.map(installation => installation.installation_id);
 
         const installations = await Installation.query().whereIn('id', installationIds);
 
