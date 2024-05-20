@@ -28,7 +28,7 @@ InstallationController.get('/:id', isAuthenticated, async(req, res) => {
     try{
         const { user } = req;
         const userInstallations = await UserInstallation.query().where('user_id', user.id);
-        if(!userInstallations.find(installation => installation.id === parseInt(req.params.id))){
+        if(!userInstallations.find(installation => installation.installation_id === parseInt(req.params.id))){
             return res.status(401).json({error: "Acesso negado"})
         }
         const installation = await Installation.query().findById(req.params.id);
@@ -45,7 +45,7 @@ InstallationController.get("/:id/sensors", isAuthenticated, async (req, res) => 
       
         const userInstallations = await UserInstallation.query().where('user_id', user.id);
 
-        const installationIds = userInstallations.map(installation => installation.id);
+        const installationIds = userInstallations.map(installation => installation.installation_id);
 
         const installationSensor = await InstallationSensor.query().whereIn('installation_id', installationIds);
 
