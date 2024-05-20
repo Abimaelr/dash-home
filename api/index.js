@@ -5,6 +5,7 @@ import LoginRouter from './modules/login/index.js';
 
 import ReportRouter from './modules/report/index.js';
 import InstallationRouter from './modules/installation/index.js';
+import SensorRouter from './modules/sensor/index.js';
 
 import rateLimit from 'express-rate-limit';
 
@@ -26,6 +27,7 @@ const JWT_SECRET = 'sua_chave_secreta';
 app.use('/login',LoginRouter)
 app.use('/report', ReportRouter)
 app.use('/installation', InstallationRouter)
+app.use('/sensors', SensorRouter)
 
 app.get('/', (req, res) => {
 });

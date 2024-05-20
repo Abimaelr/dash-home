@@ -1,4 +1,19 @@
 ### Abimael Rocha de Albuquerque - 22007441
+
+Instruções para execução do projeto.
+Entre na pasta api e na pasta panel, em ambas execute o seguinte código
+
+npm install ou yarn install
+
+Isso irá instalar todas as dependências do projeto.
+
+Na pasta api execute: nodemon index.js
+Na pasta panel execute: yarn dev.
+
+Com o projeto funcionando, entre com as credenciais:
+usuário: teste@mackenzie.com
+senha: teste123
+
 # Projeto : Dash-Home
 Esse repositório contém os arquivos do Dash-Home, que consiste em um dispositivo IOT responsável por coletar dados de ambientes fechados e gerar valor ao usuário, podendo criar alertas, estatísticas e etc.
 

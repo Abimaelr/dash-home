@@ -19,7 +19,6 @@ api.interceptors.request.use(
 
     if (token) {
       if (isTokenExpired(token)) {
-        console.log('token expired')
         localStorage.removeItem('token')
         router.push('/login')
         return config

@@ -14,15 +14,14 @@ InstallationRouter.use(InstallationController);
 client.on('connect', async () => {
   try {
     const sensors = await Sensor.query();
-    console.log(sensors);
 
     sensors.forEach(sensor => {
       client.subscribe(sensor.code, (err) => {
-        if (!err) {
-          console.log(`Subscribed to ${sensor.code} - ${sensor.alias}`);
-        } else {
-          console.error('Error subscribing to topic:', err);
-        }
+        // if (!err) {
+        //   console.info(`Subscribed to ${sensor.code} - ${sensor.alias}`);
+        // } else {
+        //   console.error('Error subscribing to topic:', err);
+        // }
       });
     });
   } catch (error) {

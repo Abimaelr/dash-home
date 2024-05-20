@@ -12,8 +12,13 @@
               v-for="installation in installationData"
               :key="installation.id"
             >
-              <el-card @click.native="handleCardClick(installation)" class="card">
-                <div>{{ installation.address }}</div>
+              <el-card @click="handleCardClick(installation)" class="card">
+                <div class="card-content">
+                  <div class="installation-address">{{ installation.address }}</div>
+                  <div class="last-active">
+                    Last Active: {{ installation.last_active ?? 'N/A' }}
+                  </div>
+                </div>
               </el-card>
             </el-col>
           </el-row>
@@ -45,12 +50,29 @@ function handleCardClick(installation: any) {
 </script>
 
 <style scoped>
-el-row {
-  margin: 0;
-  overflow-x: hidden;
+.el-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
 }
 
-.card {
+.el-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+}
+
+.card-content {
+  padding: 20px;
+}
+
+.installation-address {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.last-active {
+  font-size: 14px;
+  color: #666;
 }
 </style>
